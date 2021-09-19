@@ -15,5 +15,14 @@
 
         public IList<Instruction> InstructionList { get; set; } = new List<Instruction>();
 
+        #region Methods
+
+        public string InformationString()
+        {
+            string statusString = this.Status ? string.Empty : "LOST";
+            return $"{this.XPosition} {this.YPosition} {this.Orientation} {statusString}";
+        }
+
+        #endregion
     }
 }

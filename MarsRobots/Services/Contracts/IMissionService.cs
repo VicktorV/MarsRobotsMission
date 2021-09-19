@@ -4,7 +4,7 @@
 
     public interface IMissionService
     {
-        public MissionData DeployRobots(MissionData inputData);
+        public void Start(MissionData missionData);
 
     }
 }

@@ -13,28 +13,30 @@
             string line;
             MissionData inputData = new();
 
-            using StreamReader file = new(@"c:\InputFile.txt");
-            if (file is null)
+            using (StreamReader file = new(@"c:\InputFile.txt"))
             {
-                return null;
-            }
+                if (file is null)
+                {
+                    return null;
+                }
 
-            if ((line = file.ReadLine()) is not null)
-            {
-                ParseGrid(inputData, line);
-            }
-
-            while ((line = file.ReadLine()) is not null)
-            {
-                Robot robot = CreateRobot(line);
                 if ((line = file.ReadLine()) is not null)
                 {
-                    ParseInstructionList(robot, line);
-                    inputData.RobotList.Add(robot);
+                    ParseGrid(inputData, line);
                 }
-            }
 
-            file.Close();
+                while ((line = file.ReadLine()) is not null)
+                {
+                    Robot robot = CreateRobot(line);
+                    if ((line = file.ReadLine()) is not null)
+                    {
+                        ParseInstructionList(robot, line);
+                        inputData.RobotList.Add(robot);
+                    }
+                }
+
+                file.Close();
+            }
 
             return inputData;
         }
@@ -44,6 +46,9 @@
             string[] gridcoords = line.Split(' ');
             inputData.Grid.XMaxCoord = Int32.TryParse(gridcoords[0], out int parsedCoord) ? parsedCoord : 0;
             inputData.Grid.YMaxCoord = Int32.TryParse(gridcoords[1], out parsedCoord) ? parsedCoord : 0;
+
+            if (inputData.Grid.XMaxCoord > 50) inputData.Grid.XMaxCoord = 50;
+            if (inputData.Grid.YMaxCoord > 50) inputData.Grid.YMaxCoord = 50;
         }
 
         private static Robot CreateRobot(string line)
@@ -53,6 +58,9 @@
             string[] initStatus = line.Split(' ');
             robot.XPosition = Int32.TryParse(initStatus[0], out int parsedPosition) ? parsedPosition : 0;
             robot.YPosition = Int32.TryParse(initStatus[1], out parsedPosition) ? parsedPosition : 0;
+
+            if (robot.XPosition > 50) robot.XPosition = 50;
+            if (robot.YPosition > 50) robot.YPosition = 50;
 
             robot.Orientation = Enum.TryParse(initStatus[2], true, out Orientation orientation) ? orientation : Orientation.N;
 

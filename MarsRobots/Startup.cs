@@ -25,6 +25,7 @@ namespace MarsRobots
             services.AddControllers();
             #region DI
             services.AddScoped<IDataReaderService, DataReaderService>();
+            services.AddScoped<IDataWriterService, DataWriterService>();
             services.AddScoped<IMissionService, MissionService>();
             #endregion
             services.AddSwaggerGen(c =>

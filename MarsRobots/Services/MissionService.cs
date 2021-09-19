@@ -1,6 +1,5 @@
 ﻿namespace MarsRobots.Services
 {
-    using MarsRobots.Common;
     using MarsRobots.Models;
     using MarsRobots.Services.Contracts;
 
@@ -13,11 +12,16 @@
             //this.UnitMovementService = unitMovementService;
         }
 
-        public MissionData DeployRobots(MissionData missionData)
+        public void Start(MissionData missionData)
         {
 
 
-            return new MissionData();
+            //foreach (Robot robot in missionData.RobotList)
+            //{
+                
+            //}
+
+
         }
     }
 

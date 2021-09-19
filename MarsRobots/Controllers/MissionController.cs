@@ -9,19 +9,22 @@
     public class MissionController : ControllerBase
     {
         private readonly IDataReaderService DataReaderService;
+        private readonly IDataWriterService DataWriterService;
         private readonly IMissionService MissionService;
 
-        public MissionController(IDataReaderService dataReaderService, IMissionService missionService)
+        public MissionController(IDataReaderService dataReaderService, IDataWriterService dataWriterService, IMissionService missionService)
         {
             this.DataReaderService = dataReaderService;
+            this.DataWriterService = dataWriterService;
             this.MissionService = missionService;
         }
 
         [HttpGet]
-        public MissionData StartMission()
+        public void StartMission()
         {
-            MissionData missiontData = DataReaderService.ReadInputFile();
-            return MissionService.DeployRobots(missiontData);
+            MissionData missionData = DataReaderService.ReadInputFile();
+            MissionService.Start(missionData);
+            DataWriterService.WriteOutputFile(missionData);
         }
     }
 }
