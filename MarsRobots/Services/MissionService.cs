@@ -1,6 +1,5 @@
 ﻿namespace MarsRobots.Services
 {
-    using System;
     using System.Linq;
     using MarsRobots.Common;
     using MarsRobots.Models;
@@ -48,21 +47,21 @@
 
         private static void MoveForward(Robot robot, Grid grid)
         {
-            CartesianCoordinates initPosition = new(robot.XPosition, robot.YPosition);
+            CartesianCoordinates currentPosition = robot.Position;
 
             switch (robot.Orientation)
             {
                 case Orientation.N:
-                    robot.YPosition++;
+                    robot.Position.Y++;
                     break;
                 case Orientation.E:
-                    robot.XPosition++;
+                    robot.Position.X++;
                     break;
                 case Orientation.S:
-                    robot.YPosition--;
+                    robot.Position.Y--;
                     break;
                 case Orientation.W:
-                    robot.XPosition--;
+                    robot.Position.X--;
                     break;
                 default:
                     break;
@@ -70,21 +69,21 @@
 
             if (!CheckStatus(robot, grid))
             {
-                if (grid.ScentedPositionList.Contains(initPosition))
+                if (grid.ScentedPositionList.Contains(currentPosition))
                 {
-                    robot.XPosition = initPosition.X;
-                    robot.YPosition = initPosition.Y;
+                    robot.Position.X = currentPosition.X;
+                    robot.Position.Y = currentPosition.Y;
                 }
                 else
                 {
                     robot.Status = false;
-                    grid.ScentCoordinates(initPosition);
+                    grid.ScentCoordinates(currentPosition);
                 }
             }
 
         }
 
-        private static bool CheckStatus(Robot robot, Grid grid) => !(0 > robot.XPosition || robot.XPosition > grid.XMaxCoord || 0 > robot.YPosition || robot.YPosition > grid.YMaxCoord);
+        private static bool CheckStatus(Robot robot, Grid grid) => !(0 > robot.Position.X || robot.Position.X > grid.MaxCoord.X || 0 > robot.Position.Y || robot.Position.Y > grid.MaxCoord.Y);
 
         private static void RotateLeft(Robot robot)
         {

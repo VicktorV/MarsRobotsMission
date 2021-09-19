@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace MarsRobots.Models.PlanetModels
+﻿namespace MarsRobots.Models.PlanetModels
 {
+    using System.Collections.Generic;
     public class Grid
     {
-        public int XMaxCoord { get; set; }
-
-        public int YMaxCoord { get; set; }
+        public CartesianCoordinates MaxCoord { get; set; }
 
         public IList<CartesianCoordinates> ScentedPositionList { get; set; } = new List<CartesianCoordinates>();
 

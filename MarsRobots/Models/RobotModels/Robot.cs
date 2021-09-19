@@ -7,9 +7,7 @@
     {
         public bool Status { get; set; } = true;
 
-        public int XPosition { get; set; }
-
-        public int YPosition { get; set; }
+        public CartesianCoordinates Position { get; set; }
 
         public Orientation Orientation { get; set; }
 
@@ -20,7 +18,7 @@
         public string InformationString()
         {
             string statusString = this.Status ? string.Empty : "LOST";
-            return $"{this.XPosition} {this.YPosition} {this.Orientation} {statusString}";
+            return $"{this.Position.X} {this.Position.Y} {this.Orientation} {statusString}";
         }
 
         #endregion

@@ -44,11 +44,10 @@
         private static void ParseGrid(MissionData inputData, string line)
         {
             string[] gridcoords = line.Split(' ');
-            inputData.Grid.XMaxCoord = Int32.TryParse(gridcoords[0], out int parsedCoord) ? parsedCoord : 0;
-            inputData.Grid.YMaxCoord = Int32.TryParse(gridcoords[1], out parsedCoord) ? parsedCoord : 0;
+            int x = Int32.TryParse(gridcoords[0], out int parsedCoord) ? parsedCoord : 0;
+            int y = Int32.TryParse(gridcoords[1], out parsedCoord) ? parsedCoord : 0;
 
-            if (inputData.Grid.XMaxCoord > 50) inputData.Grid.XMaxCoord = 50;
-            if (inputData.Grid.YMaxCoord > 50) inputData.Grid.YMaxCoord = 50;
+            inputData.Grid.MaxCoord = ParseInputLimit(x, y);
         }
 
         private static Robot CreateRobot(string line)
@@ -56,15 +55,22 @@
             Robot robot = new();
 
             string[] initStatus = line.Split(' ');
-            robot.XPosition = Int32.TryParse(initStatus[0], out int parsedPosition) ? parsedPosition : 0;
-            robot.YPosition = Int32.TryParse(initStatus[1], out parsedPosition) ? parsedPosition : 0;
+            int x = Int32.TryParse(initStatus[0], out int parsedPosition) ? parsedPosition : 0;
+            int y = Int32.TryParse(initStatus[1], out parsedPosition) ? parsedPosition : 0;
 
-            if (robot.XPosition > 50) robot.XPosition = 50;
-            if (robot.YPosition > 50) robot.YPosition = 50;
-
+            robot.Position = ParseInputLimit(x, y);
+            robot.Status = !(robot.Position.X < 0 || robot.Position.Y < 0);
             robot.Orientation = Enum.TryParse(initStatus[2], true, out Orientation orientation) ? orientation : Orientation.N;
 
             return robot;
+        }
+
+        private static CartesianCoordinates ParseInputLimit(int x, int y)
+        {
+            if (x > 50) x = 50;
+            if (y > 50) y = 50;
+
+            return new(x, y);
         }
 
         private static void ParseInstructionList(Robot robot, string line)
