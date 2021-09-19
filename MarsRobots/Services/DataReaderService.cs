@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
     using MarsRobots.Common;
     using MarsRobots.Models;
     using MarsRobots.Services.Contracts;
@@ -10,11 +11,28 @@
     {
         public MissionData ReadInputFile()
         {
-            string line;
+            string fileName = "InputFile.txt";
+            string path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\MarsMissionData";
+
+            string[] fileEntries = Directory.GetFiles(path);
+            if (fileEntries.Any(file => file.EndsWith($@"\{fileName}")))
+            {
+                return ProcessFile($@"{path}\{fileName}");
+            }
+            else
+            {
+                throw new FileNotFoundException(@"File 'InputData.txt' was not found in 'Desktop\MarsMissionData' folder");
+            }
+        }
+
+        private static MissionData ProcessFile(string filePath)
+        {
             MissionData inputData = new();
 
-            using (StreamReader file = new(@"c:\InputFile.txt"))
+            using (StreamReader file = new(filePath))
             {
+                string line;
+
                 if (file is null)
                 {
                     return null;

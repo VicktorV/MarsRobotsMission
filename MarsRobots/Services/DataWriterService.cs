@@ -1,5 +1,6 @@
 ﻿namespace MarsRobots.Services
 {
+    using System;
     using System.IO;
     using MarsRobots.Models;
     using MarsRobots.Services.Contracts;
@@ -22,7 +23,8 @@
 
         public void WriteOutputFile(MissionData missionData)
         {
-            using StreamWriter file = new(@"c:\OutputFile.txt");
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            using StreamWriter file = new($@"{path}\MarsMissionData\OutputFile.txt");
 
             WriteHeader(file, false);
 
