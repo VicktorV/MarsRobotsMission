@@ -29,13 +29,13 @@
                     switch (instruction)
                     {
                         case Instruction.Forward:
-                            MoveForward(robot, missionData.Grid);
+                            robot.MoveForward(missionData.Grid);
                             break;
                         case Instruction.Right:
-                            RotateRight(robot);
+                            robot.RotateRight();
                             break;
                         case Instruction.Left:
-                            RotateLeft(robot);
+                            robot.RotateLeft();
                             break;
                         default:
                             //Log wrong instruction
@@ -44,71 +44,5 @@
                 }
             }
         }
-
-        private static void MoveForward(Robot robot, Grid grid)
-        {
-            CartesianCoordinates currentPosition = robot.Position;
-
-            switch (robot.Orientation)
-            {
-                case Orientation.N:
-                    robot.Position.Y++;
-                    break;
-                case Orientation.E:
-                    robot.Position.X++;
-                    break;
-                case Orientation.S:
-                    robot.Position.Y--;
-                    break;
-                case Orientation.W:
-                    robot.Position.X--;
-                    break;
-                default:
-                    break;
-            }
-
-            if (!CheckStatus(robot, grid))
-            {
-                if (grid.ScentedPositionList.Contains(currentPosition))
-                {
-                    robot.Position.X = currentPosition.X;
-                    robot.Position.Y = currentPosition.Y;
-                }
-                else
-                {
-                    robot.Status = false;
-                    grid.ScentCoordinates(currentPosition);
-                }
-            }
-
-        }
-
-        private static bool CheckStatus(Robot robot, Grid grid) => !(0 > robot.Position.X || robot.Position.X > grid.MaxCoord.X || 0 > robot.Position.Y || robot.Position.Y > grid.MaxCoord.Y);
-
-        private static void RotateLeft(Robot robot)
-        {
-            if (robot.Orientation.Equals(Orientation.N))
-            {
-                robot.Orientation = Orientation.W;
-            }
-            else
-            {
-                robot.Orientation--;
-            }
-        }
-
-        private static void RotateRight(Robot robot)
-        {
-            if (robot.Orientation.Equals(Orientation.W))
-            {
-                robot.Orientation = Orientation.N;
-            }
-            else
-            {
-                robot.Orientation++;
-            }
-        }
-
     }
-
 }

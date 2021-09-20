@@ -2,15 +2,10 @@
 {
     using System.Collections.Generic;
     using MarsRobots.Common;
+    using MarsRobots.Models.Contracts;
 
-    public class Robot
+    public class Robot : MovableUnit
     {
-        public bool Status { get; set; } = true;
-
-        public CartesianCoordinates Position { get; set; }
-
-        public Orientation Orientation { get; set; }
-
         public IList<Instruction> InstructionList { get; set; } = new List<Instruction>();
 
         #region Methods
