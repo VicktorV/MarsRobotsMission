@@ -13,7 +13,7 @@
 
         internal void MoveForward(Grid grid)
         {
-            CartesianCoordinates lastPosition = Position;
+            CartesianCoordinates lastPosition = new(Position.X, Position.Y);
 
             switch (Orientation)
             {
@@ -35,12 +35,9 @@
 
             if (!CheckStatus(grid))
             {
-                if (grid.ScentedPositionList.Contains(lastPosition))
-                {
-                    Position.X = lastPosition.X;
-                    Position.Y = lastPosition.Y;
-                }
-                else
+                Position = lastPosition;
+
+                if (!grid.IsScentedPosition(lastPosition))
                 {
                     Status = false;
                     grid.ScentCoordinates(lastPosition);
